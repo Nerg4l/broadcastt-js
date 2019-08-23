@@ -2,6 +2,10 @@
 
 Realtime web applications are the future. [Broadcastt](https://broadcastt.xyz/) provides tools to help developers create realtime applications.
 
+- [Javascript Client Library](#javascript-client-library)
+- [Documentation](#documentation)
+- [Contributing](#configuration)
+
 ## Javascript Client Library
 
 > Be aware that this library is still in beta and not reached the first MAJOR version.
@@ -10,7 +14,7 @@ Realtime web applications are the future. [Broadcastt](https://broadcastt.xyz/) 
 >
 > Major version zero (0.y.z) is for initial development. Anything may change at any time. The public API should not be considered stable.
 
-This library is compatible with web browsers (compatible with RFC 6455) and Node.js.
+This library is compatible with web browsers (compatible with RFC 6455).
 
 Browser compatibility ([source](https://en.wikipedia.org/wiki/WebSocket#Browser_implementation)):
 
@@ -23,6 +27,16 @@ This is a client library. If you are looking for a server library please check o
 For tutorials and more in-depth documentation, visit our [official site](https://broadcastt.xyz/).
 
 ## Documentation
+
+- [First steps](#first-steps)
+- [Configuration](#configuration)
+- [Subscription](#subscription)
+  - [Subscribe to Public channels](#subscribe-to-public-channels)
+  - [Subscribe to Private or Presence channels](#subscribe-to-private-or-presence-channels)
+  - [Unsubscribe from channel](#unsubscribe-from-channel)
+- [Events](#events)
+  - [Bind event](#bind-event)
+  - [Uind event](#unbind-event)
 
 ### First steps
 
@@ -40,7 +54,7 @@ ES5:
 const Broadcastt = require('broadcastt-js');
 ```
 
-Second you have to initialize a object
+Second you have to initialize an object
 
 ```javascript
 const socket = new Broadcastt(APP_KEY);
@@ -148,7 +162,7 @@ If you already subscribed by calling these methods you get back the same objects
 
 Private and presence channels will make a request to `authEndpoint` where you have to authenticate the subscription.
 
-#### Unsubscribe
+#### Unsubscribe from channel
 
 You can unsubscribe from a channel by calling the `unsubscribe` method of the channel object.
 
@@ -164,7 +178,7 @@ socket.leave('channel-name');
 
 ### Events
 
-#### Bind
+#### Bind event
 
 You can bind callbacks to events by calling the `bind` method on a channel object.
 
@@ -176,7 +190,7 @@ channel.bind('event-name', (payload) => {
 
 Several callbacks can be added to the same event.
 
-#### Unbind
+#### Unbind event
 
 You can remove all event bindings by calling `unbind` method on a channel object without any parameter. 
 
