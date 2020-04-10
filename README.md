@@ -2,15 +2,19 @@
 
 Realtime web applications are the future. [Broadcastt](https://broadcastt.xyz/) provides tools to help developers create realtime applications.
 
+- [Javascript Client Library](#javascript-client-library)
+- [Documentation](#documentation)
+- [Contributing](#configuration)
+
 ## Javascript Client Library
 
-> Be aware that this library is still in beta and not reached the first MAJOR version.
+> Be aware that this library is still in development and not reached the first MAJOR version.
 > 
 > Semantic Versioning 2.0.0
 >
 > Major version zero (0.y.z) is for initial development. Anything may change at any time. The public API should not be considered stable.
 
-This library is compatible with web browsers (compatible with RFC 6455) and Node.js.
+This library is only compatible with web browsers which has support for RFC 6455.
 
 Browser compatibility ([source](https://en.wikipedia.org/wiki/WebSocket#Browser_implementation)):
 
@@ -23,6 +27,16 @@ This is a client library. If you are looking for a server library please check o
 For tutorials and more in-depth documentation, visit our [official site](https://broadcastt.xyz/).
 
 ## Documentation
+
+- [First steps](#first-steps)
+- [Configuration](#configuration)
+- [Subscription](#subscription)
+  - [Subscribe to Public channels](#subscribe-to-public-channels)
+  - [Subscribe to Private or Presence channels](#subscribe-to-private-or-presence-channels)
+  - [Unsubscribe from channel](#unsubscribe-from-channel)
+- [Events](#events)
+  - [Bind event](#bind-event)
+  - [Uind event](#unbind-event)
 
 ### First steps
 
@@ -40,7 +54,7 @@ ES5:
 const Broadcastt = require('broadcastt-js');
 ```
 
-Second you have to initialize a object
+Second you have to initialize an object
 
 ```javascript
 const socket = new Broadcastt(APP_KEY);
@@ -86,35 +100,23 @@ May become deprecated in later versions because RFC 6455 has Control Frames for 
 
 Default value: `30`
 
-#### `authEndpoint` (Number)
+#### `authEndpoint` (String)
 
 Relative or absolute url to be called by this library for private and presence channel authentication.
 
 Default value: `/broadcasting/auth`
 
-#### `csrf` (Number)
+#### `csrf` (String)
 
 Cross-site request forgery token which will be set in the header as `X-CSRF-TOKEN` when calling the auth endpoint.
 
-Default value: `null`
+Default value: `undefined`
 
 #### `encrypted` (Number)
 
 Determines if `ws` or `wss` protocol should be called.
 
 Default value: `true`
-
-#### `debug` (Number)
-
-If enabled the library will log events and method calls to the console.
-
-Default value: `false`
-
-#### `maximumReconnects` (Number)
-
-Sets the maximum number of reconnects in a row. So if any reconnect attempts is successful the counter will reset.
-
-Default value: `8`
 
 ### Subscription
 
@@ -133,22 +135,22 @@ This returns a Channel object
 You can subscribe to a private or presence channel the same way you would do for a public channel you just has to add `private-` or `presence-` depending on the type of the desired channel. 
 
 ```javascript
-const channel = socket.join('private-channel-name');
-const channel = socket.join('presence-channel-name');
+const privateChannel = socket.join('private-channel-name');
+const presenceChannel = socket.join('presence-channel-name');
 ```
 
 Additionally you can call the `private` or `presence` method of your socket object where you don't need to add the prefix.
 
 ```javascript
-const channel = socket.private('channel-name');
-const channel = socket.presence('channel-name');
+const privateChannel = socket.private('channel-name');
+const presenceChannel = socket.presence('channel-name');
 ```
 
 If you already subscribed by calling these methods you get back the same objects as you did on the first call.
 
 Private and presence channels will make a request to `authEndpoint` where you have to authenticate the subscription.
 
-#### Unsubscribe
+#### Unsubscribe from channel
 
 You can unsubscribe from a channel by calling the `unsubscribe` method of the channel object.
 
@@ -164,19 +166,19 @@ socket.leave('channel-name');
 
 ### Events
 
-#### Bind
+#### Bind event
 
 You can bind callbacks to events by calling the `bind` method on a channel object.
 
 ```javascript
-channel.bind('event-name', (payload) => {
+channel.bind('event-name',(payload) => {
     // Do what you want
 });
 ```
 
 Several callbacks can be added to the same event.
 
-#### Unbind
+#### Unbind event
 
 You can remove all event bindings by calling `unbind` method on a channel object without any parameter. 
 
@@ -193,13 +195,13 @@ channel.unbind('event-name');
 Also the `unbind` method can remove a specific callback by calling it with that callback as a parameter.
 
 ```javascript
-channel.unbind(null, your-callback-object);
+channel.unbind(null,your-callback-object);
 ```
 
 Further more you can remove a specific callback from an event by passing the name and the callback.
 
 ```javascript
-channel.unbind('event-name', your-callback-object);
+channel.unbind('event-name',your-callback-object);
 ```
 
 ## Contributing
